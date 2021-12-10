@@ -17,13 +17,17 @@ class Post(models.Model):
     content = models.TextField(blank=True)
     image = models.ImageField(upload_to='media/content_image/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True)
-    changed_at = models.DateTimeField(blank=True)
+    changed_at = models.DateTimeField(blank=True, null=True)
     claps = models.IntegerField(default=0)
-    time_to_read = models.TimeField(blank=True) # TODO: написать функцию для подсчета времени на чтение
+    time_to_read = models.TimeField(blank=True, null=True) # TODO: написать функцию для подсчета времени на чтение
 
     class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('post_detail', args=[str(self.pk)])
 
 
 

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'blog',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'diary',
         'USER': 'sergey',
-        'PASSWORD': os.getenv('DB_BLOGPLATFORM'),
+        # 'PASSWORD': os.getenv('DB_BLOGPLATFORM'),
+        'PASSWORD': '7PF6wihk',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
