@@ -30,4 +30,16 @@ class Post(models.Model):
         return reverse('post_detail', args=[str(self.pk)])
 
 
+class Comment(models.Model):
+    author = models.ForeignKey(to=SiteUser, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(to=Post, on_delete=models.CASCADE, related_name='comments')
+    date = models.DateTimeField(auto_now_add=True)
+    text = models.TextField(max_length=1000)
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+
+
 

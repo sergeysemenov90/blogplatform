@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import SiteUser, Post
+from .models import SiteUser, Post, Comment
 
 
-admin.site.register(SiteUser)
-admin.site.register(Post)
+admin.site.register((SiteUser, Post, Comment),)

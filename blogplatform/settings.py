@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'blog',
+    'registration',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,6 +95,8 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = "blog.SiteUser"
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -125,11 +131,11 @@ USE_TZ = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = 'static/'
-# STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, "static"),
-# ]
+STATIC_ROOT = ''
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, "static"),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
