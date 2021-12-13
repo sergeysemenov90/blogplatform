@@ -15,7 +15,7 @@
 <!--		                        <a href="#">Editorial</a>-->
 <!--		                    </div>-->
 		                    <h2 class="font-pt">{{post.title}}</h2>
-		                    <p>{{post.created_at}}</p>
+		                    <p>{{post.created_at}}   <a href="{% url 'post_update' post.id %}">Редактировать</a></p>
 		                </div>
 		            </div>
 		        </div>

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block post_create %}
+<div  class="container mt-3" >
+    <div  class="row justify-content-center">
+      <div  class="col-4">
+          <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Создание записи</h4>
+                <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button type="submit" class="btn btn-primary btn-block">Создать запись</button>
+                </form>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

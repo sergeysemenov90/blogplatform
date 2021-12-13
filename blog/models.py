@@ -24,6 +24,7 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
+        ordering = ['created_at']
 
     def get_absolute_url(self):
         from django.urls import reverse
