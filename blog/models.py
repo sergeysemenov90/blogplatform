@@ -18,7 +18,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to='media/content_image/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(blank=True, null=True)
-    claps = models.IntegerField(default=0)
+    likes = models.ManyToManyField(to=SiteUser, related_name='post_like')
     time_to_read = models.TimeField(blank=True, null=True) # TODO: написать функцию для подсчета времени на чтение
 
     class Meta:
@@ -32,6 +32,8 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Комментарии к записям в блоге"""
+
     author = models.ForeignKey(to=SiteUser, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(to=Post, on_delete=models.CASCADE, related_name='comments')
     date = models.DateTimeField(auto_now_add=True)
@@ -41,6 +43,13 @@ class Comment(models.Model):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
+
+# class Clap(models.Model):
+#     """Класс реакции на пост - похлопатьб аналог лайков"""
+#
+#     post = models.ForeignKey(to=Post, on_delete=models.CASCADE)
+#     user = models.ForeignKey(to=SiteUser, on_delete=models.CASCADE)
+#     date = models.DateTimeField(auto_now_add=True)
 
 
 

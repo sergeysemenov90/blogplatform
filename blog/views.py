@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post
@@ -14,6 +15,18 @@ class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'
     template_name = 'blog/post_detail.html'
+
+    def get_context_data(self, **kwargs):
+        """Переопределяем метод для добавления в шаблон данных о наличии лайка от пользователя"""
+        data = super(PostDetailView, self).get_context_data(**kwargs)
+        post = get_object_or_404(Post, id=self.kwargs['pk'])
+        is_liked = False
+        if post.likes.filter(id=self.request.user.id).exists():
+            is_liked = True
+        data['likes_count'] = post.likes.count()
+        data['is_liked'] = is_liked
+        return data
+
 
 
 class PostCreateView(CreateView):

@@ -28,6 +28,42 @@
 		            <div class="col-12 col-md-8">
 		                <div class="single-post-text">
                             {{post.content}}
+
+                            {% if user.is_authenticated %}
+                            <form action="{% url 'post_like_or_dislike' object.id %}" method="POST">
+                                {% csrf_token %}
+                                {% if is_liked %}
+                                <div class="mt-50" style="float:right">
+                                    <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-primary" >
+                                        <i class="bi bi-hand-thumbs-up"></i> UnLike
+                                    </button>
+                                    <nav>
+                                        <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
+                                    </nav>
+                                </div>
+                                {% else %}
+                                <div class="mt-50" style="float:right">
+                                    <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-primary" >
+                                        <i class="bi bi-hand-thumbs-up"></i> Like
+                                    </button>
+                                    <nav>
+                                        <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
+                                    </nav>
+                                </div>
+                                {% endif %}
+                            </form>
+                            {% else %}
+                            <div class="mt-50" style="float:right">
+                                <a class="btn btn-primary" href="{% url 'account_login' %}?next={{request.path}}">
+                                    Log in to like this article!
+                                </a><br>
+                                <nav>
+                                    <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
+                                </nav>
+                            </div>
+                            {% endif %}
+
+
                         </div>
 		            </div>
 		        </div>
@@ -54,7 +90,11 @@
                                 <div class="comment-wrapper d-md-flex align-items-start">
                                     <!-- Comment Meta -->
                                     <div class="comment-author">
-                                        <img src="img/blog-img/25.jpg" alt="">
+                                        {% if comment.author.image %}
+                                        <img src="{{comment.author.image.url}}" alt="">
+                                        {% else %}
+                                        <img src="https://w7.pngwing.com/pngs/906/222/png-transparent-computer-icons-user-profile-avatar-french-people-computer-network-heroes-black.png" width="50">
+                                        {% endif %}
                                     </div>
                                     <!-- Comment Content -->
                                     <div class="comment-content">
