@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, CommentCreateView
 from .services import like_or_dislike_post
 
 urlpatterns = [
@@ -10,7 +10,8 @@ urlpatterns = [
     path('post/<int:pk>', PostDetailView.as_view(), name='post_detail'),
     path('post/<int:pk>/update', PostUpdateView.as_view(), name='post_update'),
     path('post/post_create', PostCreateView.as_view(), name='post_create'),
-    path('post/<int:pk>/like', like_or_dislike_post, name='post_like_or_dislike')
+    path('post/<int:pk>/like', like_or_dislike_post, name='post_like_or_dislike'),
+    path('post/<int:pk>/leave_comment', CommentCreateView.as_view(), name='post_leave_comment')
 ]
 
 if settings.DEBUG:
