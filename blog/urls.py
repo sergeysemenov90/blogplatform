@@ -5,7 +5,6 @@ from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView,
 from .services import like_or_dislike_post
 
 urlpatterns = [
-    path('', PostListView.as_view(), name='mainpage'),
     path('posts', PostListView.as_view(), name='post_list'),
     path('post/<int:pk>', PostDetailView.as_view(), name='post_detail'),
     path('post/<int:pk>/update', PostUpdateView.as_view(), name='post_update'),

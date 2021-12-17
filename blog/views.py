@@ -9,8 +9,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class PostListView(ListView):
     """Отображения списка постов пользователей"""
     model = Post
-    template_name = 'base.html'
+    template_name = 'blog/index.html'
     context_object_name = 'posts'
+
+    def get_queryset(self):
+        """Реализация поиска по заголовкам записей"""
+        queryset = Post.objects.all()
+        if 'search' in self.request.GET:
+            queryset = queryset.filter(title__icontains=self.request.GET['search'])
+        return queryset
+
 
 
 class PostDetailView(DetailView):
@@ -37,7 +45,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content', 'image', ]
     template_name = 'blog/post_create.html'
-    success_url = reverse_lazy('post_list')
 
     def form_valid(self, form):
         """Переопределяем метод для добавления автора записи"""
@@ -45,13 +52,18 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         self.object.author = self.request.user
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('post_detail', kwargs=({'pk': self.object.pk}))
+
 
 class PostUpdateView(UpdateView):
     """Редактирование записи"""
     model = Post
     fields = ['title', 'content', 'image', ]
     template_name = 'blog/post_update.html'
-    success_url = reverse_lazy('post_list')
+
+    def get_success_url(self):
+        return reverse_lazy('post_detail', args=(self.kwargs['pk'],))
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
@@ -68,4 +80,5 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('post_detail', args=(self.kwargs['pk'],))
+        print(self.object.pk)
+        return reverse_lazy('post_detail', kwargs=({'pk': self.object.pk}))
