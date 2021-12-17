@@ -10,11 +10,23 @@ class SiteUser(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
 
+class Blog(models.Model):
+    """Блог, посвященный определенной теме"""
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    followers = models.ManyToManyField(to=SiteUser, null=True)
+
+    class Meta:
+        verbose_name = 'Блог'
+        verbose_name_plural = 'Блоги'
+
+
 class Post(models.Model):
     """Класс записи в блоге пользователя"""
     author = models.ForeignKey(to=SiteUser, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=250)
     content = models.TextField(blank=True)
+    blog = models.ForeignKey(to=Blog, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='media/content_image/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(blank=True, null=True)
@@ -44,12 +56,9 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
 
 
-# class Clap(models.Model):
-#     """Класс реакции на пост - похлопатьб аналог лайков"""
-#
-#     post = models.ForeignKey(to=Post, on_delete=models.CASCADE)
-#     user = models.ForeignKey(to=SiteUser, on_delete=models.CASCADE)
-#     date = models.DateTimeField(auto_now_add=True)
-
+class Tag(models.Model):
+    """Тэг, определяющий тему записи"""
+    name = models.CharField(max_length=200)
+    posts = models.ManyToManyField(to=Post)
 
 

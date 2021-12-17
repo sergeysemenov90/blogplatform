@@ -1,9 +1,9 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post, Comment
 from .forms import CommentCreateForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class PostListView(ListView):
@@ -32,7 +32,7 @@ class PostDetailView(DetailView):
         return data
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     """Создание записи"""
     model = Post
     fields = ['title', 'content', 'image', ]
@@ -54,13 +54,14 @@ class PostUpdateView(UpdateView):
     success_url = reverse_lazy('post_list')
 
 
-class CommentCreateView(CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    """Создание комментария"""
     model = Comment
     form_class = CommentCreateForm
     template_name = 'blog/post_detail.html'
 
     def form_valid(self, form):
-        """Переопределяем метод для добавления комментария"""
+        """Переопределяем метод для добавления автора и записи для комментария"""
         self.object = form.save(commit=False)
         self.object.author = self.request.user
         self.object.post = get_object_or_404(Post, id=self.kwargs['pk'])
