@@ -61,32 +61,7 @@
 </nav>
 
 {% block search %}{% endblock %}
-{# Карточка отдельной записи #}
-{% block content %}
-<h1 class="mt-15 mb-15" align="center">Список популярных постов</h1>
-<div class="container">
-    <div class="row">
-        {% for post in posts %}
-        <div class="col-lg-4 col-md-4 col-sm-12 ">
-            <div class="card w-auto p-3" align="center">
-                <div class="card-img h-auto w-auto p-3">
-                    <img src="{{ post.image.url }}" class="rounded mx-auto d-block" alt="Фото записи">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <p class="card-text">{{post.content | truncatechars:100 }}</p>
-                </div>
-                <div class="card-footer" align="center">
-                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Читать полностью</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% endblock %}
-
-{%block comments%}{%endblock%}
+{% block content %}Здесь пока так тихо...{% endblock %}
 
 {% block login %}{% endblock %}
 {% block post_create %}{% endblock %}

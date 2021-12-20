@@ -1,13 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 class SiteUser(AbstractUser):
     """Базовый класс пользователя сайта"""
+    description = models.CharField(max_length=500, blank = True, null=True)
     image = models.ImageField(upload_to='media/user_image/%Y/%m/%d', blank=True, null=True)
+    followers = models.ManyToManyField(to='self')
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('user_profile', args=[str(self.pk)])
 
 
 class Blog(models.Model):
@@ -71,3 +78,9 @@ class Comment(models.Model):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
+
+class UserFollowing(models.Model):
+    """Пользователи, на которых подписан юзер, и его подписчики"""
+
+    followee = models.ForeignKey(to=SiteUser, related_name='following', on_delete=models.CASCADE)
+    follower = models.ForeignKey(to=SiteUser, related_name='followerss', on_delete=models.CASCADE)

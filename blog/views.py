@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Post, Comment
+from .models import Post, Comment, SiteUser, UserFollowing
 from .forms import CommentCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -80,5 +80,33 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        print(self.object.pk)
         return reverse_lazy('post_detail', kwargs=({'pk': self.object.pk}))
+
+
+class UserDetailView(DetailView):
+    """Страница пользователя"""
+    model = SiteUser
+    template_name = 'blog/user_profile.html'
+    context_object_name = 'siteuser'
+
+    def get_context_data(self, **kwargs):
+        user = get_object_or_404(SiteUser, id=self.kwargs['pk'])
+        context = super().get_context_data()
+        context['following'] = UserFollowing.objects.filter(follower=user)
+        context['followers'] = UserFollowing.objects.filter(followee=user)
+        is_follow = False
+        follow = user.followerss.filter(followee=self.request.user)
+        if follow.exists():
+            is_follow = True
+        context['is_follow'] = is_follow
+        return context
+
+
+
+
+# TODO: Страница пользователя
+# TODO: Страница блога
+# TODO: Страница тэга
+# TODO: Облако тэгов на главной
+# TODO: Ajax для отправки post без перезагрузки страницы
+# TODO: Переделать главную
