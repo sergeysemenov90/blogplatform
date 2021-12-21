@@ -4,7 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 class SiteUser(AbstractUser):
     """Базовый класс пользователя сайта"""
-    description = models.CharField(max_length=500, blank = True, null=True)
+    first_name = models.CharField('first name', max_length=150)
+    last_name = models.CharField('last name', max_length=150)
+    description = models.CharField(max_length=500, blank=True, null=True)
     image = models.ImageField(upload_to='media/user_image/%Y/%m/%d', blank=True, null=True)
     followers = models.ManyToManyField(to='self')
 
