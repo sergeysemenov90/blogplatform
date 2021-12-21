@@ -38,7 +38,7 @@
             </div>
             <span class="navbar-text">
               {% if user.is_authenticated %}
-                <span style="margin-right: 12px;"><a href="{{ siteuser.get_absolute_url }}">{{ user }}</a></span>
+                <span style="margin-right: 12px;"><a href="{{ user.get_absolute_url }}">{{ user }}</a></span>
               <a href="{% url 'account_logout' %}">
                   Выйти из системы
               </a>

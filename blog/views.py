@@ -19,11 +19,6 @@ class PostListView(ListView):
             queryset = queryset.filter(title__icontains=self.request.GET['search'])
         return queryset
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        data = super(PostListView, self).get_context_data()
-        data['siteuser'] = SiteUser.objects.filter(pk=self.request.user.id)
-        return data
-
 
 class PostDetailView(DetailView):
     """Детальное отображение конкретной записи"""

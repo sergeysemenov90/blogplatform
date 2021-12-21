@@ -14,18 +14,29 @@ class CommentCreateForm(ModelForm):
 
 class SiteUserSignupForm(SignupForm):
     first_name = forms.CharField(
-        label="First name",
+        label="Имя",
         widget=forms.TextInput(
-            attrs={"placeholder": "First name", "autocomplete": "first_name"}
-        ),
+            attrs={"placeholder": "", "autocomplete": "first_name"}
+        ), required=False
     )
     last_name = forms.CharField(
-        label="Last name",
+        label="Фамилия",
         widget=forms.TextInput(
-            attrs={"placeholder": "Last name", "autocomplete": "last_name"}
-        ),
+            attrs={"placeholder": "", "autocomplete": "last_name"}
+        ), required=False
+    )
+
+    description = forms.CharField(
+        label="Коротко о себе",
+        widget=forms.TextInput(
+            attrs={"placeholder": "", "autocomplete": "description"}
+        ), required=False
     )
 
     def save(self, request):
         user = super(SiteUserSignupForm, self).save(request)
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.description = self.cleaned_data['description']
+        user.save()
         return user
