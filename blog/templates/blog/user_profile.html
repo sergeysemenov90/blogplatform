@@ -3,45 +3,65 @@
 
 {% block title %}Страница пользователя {{object.username}}{% endblock %}
 {% block content %}
-<div class="container">
-    <div>
-        {%if siteuser.image%}
-        <img src="{{user.image.url}}"  width = "300">
-        {%else%}
-        <img src="https://w7.pngwing.com/pngs/906/222/png-transparent-computer-icons-user-profile-avatar-french-people-computer-network-heroes-black.png" width="300">
-        {%endif%}
-    </div>
-    <div class="mt-15">
-        {{siteuser.get_full_name}}
-    </div>
-    <div class="mt-15">
-        {{siteuser.description}}
-    </div>
+<div style="margin-left:150px;">
+    <div class="updiv">
+        <div>
+            {%if siteuser.image%}
+            <img src="{{user.image.url}}"  width = "300">
+            {%else%}
+            <img src="https://w7.pngwing.com/pngs/906/222/png-transparent-computer-icons-user-profile-avatar-french-people-computer-network-heroes-black.png" width="300">
+            {%endif%}
+        </div>
+        <div class="mt-15">
+            {{siteuser.get_full_name}}
+        </div>
+        <div class="mt-15">
+            {{siteuser.description}}
+        </div>
 
 
-    {% if user.is_authenticated %}
-    <form action="{% url 'user_follow_unfollow' siteuser.id %}" method="post">
-        {% csrf_token %}
-        {% if is_follow %}
-        <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-primary">
-            Отписаться
-        </button>
-        {% else %}
-        <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-primary">
-            Подписаться
-        </button>
+        {% if user.is_authenticated %}
+        <form action="{% url 'user_follow_unfollow' siteuser.id %}" method="post">
+            {% csrf_token %}
+            {% if is_follow %}
+            <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-primary">
+                Отписаться
+            </button>
+            {% else %}
+            <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-primary mt-15">
+                Подписаться
+            </button>
+            {% endif %}
+        </form>
         {% endif %}
-    </form>
-    {% endif %}
 
 
-    <div class="mt-15">
-        Подписчики {{following.count}}
+        <div class="mt-15">
+            Подписчики {{following.count}}
+        </div>
+        <div class="mt-15">
+            Подписан на {{followers.count}}
+        </div>
     </div>
-    <div class="mt-15">
-        Подписан на {{followers.count}}
+    <div style="margin-left: 450px;">
+        {% for post in siteuser.posts.all %}
+        <div class="col-lg-4 col-md-4 col-sm-12 ">
+            <div class="card w-auto p-3" align="center">
+                <span><a href="{{ post.author.get_absolute_url }}">{{post.author}}</a></span>
+                <div class="card-img h-auto w-auto p-3">
+                    <img src="{{ post.image.url }}" class="rounded mx-auto d-block" alt="Фото записи">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{post.content | truncatechars:100 }}</p>
+                </div>
+                <div class="card-footer" align="center">
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Читать полностью</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
-
 
 {% endblock %}

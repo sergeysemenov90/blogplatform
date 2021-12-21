@@ -5,18 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon  -->
-<!--    <link rel="icon" href="img/core-img/favicon.ico">-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <!-- Core Style CSS -->
-    <link rel="stylesheet" href="{% static 'css/core-style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>{% block title %}Главная страница{% endblock %}</title>
 </head>
 
@@ -40,9 +30,15 @@
                     <a class="nav-link active" href="#">Pricing</a>
                 </li>
             </ul>
+            <div style="margin-right:15px;">
+                <form class="d-flex" name="search">
+                    <input class="form-control me-2" type="text" name="search" placeholder="Введите значение">
+                    <button class="btn btn-primary" type="submit">Искать</button>
+                </form>
+            </div>
             <span class="navbar-text">
               {% if user.is_authenticated %}
-                Пользователь - {{ user }}
+                <span style="margin-right: 12px;"><a href="{{ siteuser.get_absolute_url }}">{{ user }}</a></span>
               <a href="{% url 'account_logout' %}">
                   Выйти из системы
               </a>
@@ -66,8 +62,6 @@
 {% block login %}{% endblock %}
 {% block post_create %}{% endblock %}
 
-
-<script type="text/javascript" src="/static/js/popper.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

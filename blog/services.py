@@ -6,7 +6,7 @@ from .models import Post, UserFollowing, SiteUser
 from django.db.models.signals import pre_save
 
 
-def like_or_dislike_post(request):
+def like_or_dislike_post(request, pk):
     """Ставит лайк записи, если пользователь этого не делал ранее, иначе - убирает лайк"""
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
     if post.likes.filter(id=request.user.id).exists():
