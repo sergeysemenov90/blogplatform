@@ -1,0 +1,17 @@
+{% extends 'blog/index.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if user.id == object.id %}
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form | crispy}}
+        <button type="submit" class="btn btn-primary" style="margin-top: 10px">Сохранить</button>
+    </form>
+</div>
+{% else %}
+Access denied. You don`t have permissions to change other users profiles
+{% endif %}
+{% endblock %}

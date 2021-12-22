@@ -65,6 +65,16 @@ class PostUpdateView(UpdateView):
         return reverse_lazy('post_detail', args=(self.kwargs['pk'],))
 
 
+class UserUpdateView(UpdateView):
+    """Обновление данных пользователя"""
+    model = SiteUser
+    fields = ['first_name', 'last_name', 'email', 'description', 'image']
+    template_name = 'blog/user_update.html'
+
+    def get_success_url(self):
+        return reverse_lazy('user_profile', args=(self.kwargs['pk'],))
+
+
 class CommentCreateView(LoginRequiredMixin, CreateView):
     """Создание комментария"""
     model = Comment
@@ -101,9 +111,6 @@ class UserDetailView(DetailView):
         return context
 
 
-
-
-# TODO: Страница пользователя
 # TODO: Страница блога
 # TODO: Страница тэга
 # TODO: Облако тэгов на главной
