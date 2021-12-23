@@ -4,153 +4,103 @@
 {% block title %}{{post.title}} | {{post.author}} {% endblock %}
 
 {% block content %}
-<section class="single-post-area">
-		<!-- Single Post Title -->
-		<div class="single-post-title bg-img background-overlay" style="background-image: url({{post.image.url}});">
-		    <div class="container h-100">
-		        <div class="row h-100 align-items-end">
-		            <div class="col-12">
-		                <div class="single-post-title-content">
-		                    <!-- Post Tag -->
-<!--		                    <div class="gazette-post-tag">-->
-<!--		                        <a href="#">Editorial</a>-->
-<!--		                    </div>-->
-		                    <h2 class="font-pt">{{post.title}}</h2>
-		                    <p>{{post.created_at}}
-                                {% if user == post.author %}
-                                <a href="{% url 'post_update' post.id %}">Редактировать</a>
-                                {% endif %}
-                            </p>
-                            <p>
-                                Время на чтение - {{post.time_to_read}} минут
-                            </p>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
+<div class="container">
+    <div class="" style="text-align:center;">
+        <h2>{{post.title}}</h2>
+        <img src="{{post.image.url}}" alt="" width="600">
+        <div class="center">
+            <p>{{post.author}} {{post.created_at | date }}
+                {% if user == post.author %}
+                <a href="{% url 'post_update' post.id %}">Редактировать</a>
+                {% endif %}
+            </p>
+            <p>
+                Время на чтение - {{post.time_to_read}} минут
+            </p>
+        </div>
+    </div>
+</div>
 
-		<div class="single-post-contents">
-		    <div class="container">
-		        <div class="row justify-content-center">
-		            <div class="col-12 col-md-8">
-		                <div class="single-post-text">
-                            {{post.content}}
+<div class="single-post-contents">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="single-post-text">
+                    {{post.content}}
 
-                            {% if user.is_authenticated %}
-                            <form action="{% url 'post_like_or_dislike' post.id %}" method="POST">
-                                {% csrf_token %}
-                                {% if is_liked %}
-                                <div class="mt-50" style="float:right">
-                                    <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-primary" >
-                                        <i class="bi bi-hand-thumbs-up"></i> UnLike
-                                    </button>
-                                    <nav>
-                                        <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
-                                    </nav>
-                                </div>
-                                {% else %}
-                                <div class="mt-50" style="float:right">
-                                    <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-primary" >
-                                        <i class="bi bi-hand-thumbs-up"></i> Like
-                                    </button>
-                                    <nav>
-                                        <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
-                                    </nav>
-                                </div>
-                                {% endif %}
-                            </form>
-                            {% else %}
-                            <div class="mt-50" style="float:right">
-                                <a class="btn btn-primary" href="{% url 'account_login' %}?next={{request.path}}">
-                                    Log in to like this article!
-                                </a><br>
-                                <nav>
-                                    <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
-                                </nav>
-                            </div>
-                            {% endif %}
-
-
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'post_like_or_dislike' post.id %}" method="POST">
+                        {% csrf_token %}
+                        {% if is_liked %}
+                        <div class="mt-50" style="float:right">
+                            <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-outline-dark" >
+                                <i class="bi bi-hand-thumbs-up"></i> UnLike
+                            </button>
+                            <nav>
+                                <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
+                            </nav>
                         </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-	    </section>
-{% endblock %}
-
-{% block comments %}
-<section class="gazette-post-discussion-area section_padding_100 bg-gray">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8">
-                    <!-- Comment Area Start -->
-                    <div class="comment_area section_padding_50 clearfix">
-                        <div class="gazette-heading">
-                            <h4 class="font-bold">Обсуждение</h4>
+                        {% else %}
+                        <div class="mt-50" style="float:right">
+                            <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-dark" >
+                                <i class="bi bi-hand-thumbs-up"></i> Like
+                            </button>
+                            <nav>
+                                <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
+                            </nav>
                         </div>
-
-                        <ol>
-							{% for comment in post.comments.all %}
-                            <!-- Single Comment Area -->
-                            <li class="single_comment_area">
-                                <div class="comment-wrapper d-md-flex align-items-start">
-                                    <!-- Comment Meta -->
-                                    <div class="comment-author">
-                                        {% if comment.author.image %}
-                                        <img src="{{comment.author.image.url}}" alt="">
-                                        {% else %}
-                                        <img src="https://w7.pngwing.com/pngs/906/222/png-transparent-computer-icons-user-profile-avatar-french-people-computer-network-heroes-black.png" width="50">
-                                        {% endif %}
-                                    </div>
-                                    <!-- Comment Content -->
-                                    <div class="comment-content">
-                                        <h5>{{comment.author}}</h5>
-                                        <span class="comment-date font-pt">{{comment.date}}</span>
-                                        <p>{{comment.text}}</p>
-                                        <a class="reply-btn" href="#">Reply <i class="fa fa-reply" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-<!--                                <ol class="children">-->
-<!--                                    <li class="single_comment_area">-->
-<!--                                        <div class="comment-wrapper d-md-flex align-items-start">-->
-<!--                                            &lt;!&ndash; Comment Meta &ndash;&gt;-->
-<!--                                            <div class="comment-author">-->
-<!--                                                <img src="img/blog-img/25.jpg" alt="">-->
-<!--                                            </div>-->
-<!--                                            &lt;!&ndash; Comment Content &ndash;&gt;-->
-<!--                                            <div class="comment-content">-->
-<!--                                                <h5>John Doe</h5>-->
-<!--                                                <span class="comment-date text-muted">December 18, 2017</span>-->
-<!--                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum nunc libero, vitae rutrum nunc porta id. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam arcu augue, semper at elementum nec, cursus nec ante.</p>-->
-<!--                                                <a class="reply-btn" href="#">Reply <i class="fa fa-reply" aria-hidden="true"></i></a>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </li>-->
-<!--                                </ol>-->
-                            </li>
-							{% endfor %}
-                        </ol>
+                        {% endif %}
+                    </form>
+                    {% else %}
+                    <div class="mt-50" style="float:right; margin-bottom: 30px">
+                        <a class="btn btn-outline-dark" href="{% url 'account_login' %}?next={{request.path}}">
+                            Log in to like this article!
+                        </a><br>
+                        <nav>
+                            <strong class="text-secondary">{{ likes_count }} Like{{ likes_count|pluralize }}</strong>
+                        </nav>
                     </div>
-                    <!-- Leave A Comment -->
-                    <div class="leave-comment-area clearfix">
-                        <div class="comment-form">
-                            <div class="gazette-heading">
-                                <h4 class="font-bold">leave a comment</h4>
-                            </div>
-                            <!-- Comment Form -->
-                            <form action="{% url 'post_leave_comment' object.id %}" method="post">
-                                {% csrf_token %}
-                                {{ form | crispy }}
-                                <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-primary">Отправить</button>
-                            </form>
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
+</section>
+
+
+<section>
+    <div class="container" style="display: flex; flex-direction: column; justify-content: center;">
+        <div style="text-align: center">
+            <h4>Обсуждение</h4>
+        </div>
+        <div style="text-align: center;">
+            {% for comment in post.comments.all %}
+            <div style="display: flex; justify-content: center;">
+                {% if comment.author.image %}
+                <img src="{{comment.author.image.url}}" alt="">
+                {% else %}
+                <img src="https://w7.pngwing.com/pngs/906/222/png-transparent-computer-icons-user-profile-avatar-french-people-computer-network-heroes-black.png" width="40">
+                {% endif %}
+                <p>{{comment.author}}</p>
+                <span class="comment-date font-pt">{{comment.date}}</span>
+            </div>
+                <p style="margin-bottom:50px">{{comment.text}}</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="display: flex; flex-direction: column; margin-top:20px">
+        <h4 style="align-self: center;">leave a comment</h4>
+        <div style="width:50%; align-self: center;">
+            <form action="{% url 'post_leave_comment' object.id %}" method="post">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-dark mt-15">Отправить</button>
+            </form>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
 </body>
 </html>

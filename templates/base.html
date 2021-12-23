@@ -7,12 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>{% block title %}Главная страница{% endblock %}</title>
 </head>
 
 <body>
 {# Основной навбар сайта #}
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C4E2FF;">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'mainpage' %}">BlogPost</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +35,7 @@
             <div style="margin-right:15px;">
                 <form class="d-flex" name="search">
                     <input class="form-control me-2" type="text" name="search" placeholder="Введите значение">
-                    <button class="btn btn-primary" type="submit">Искать</button>
+                    <button class="btn btn-outline-dark" type="submit">Искать</button>
                 </form>
             </div>
             <span class="navbar-text">
@@ -55,9 +57,76 @@
         </div>
     </div>
 </nav>
-
 {% block search %}{% endblock %}
-{% block content %}Здесь пока так тихо...{% endblock %}
+{% block content %}
+<div class="lj">
+    <div class="page-head">
+        <div class="le">
+            <div class="an">
+                <div class="as">
+                    <div class="df">
+                        <div class="ax">
+                            <div class="dq">
+                                <h2 class="head-text">Medium is a place to write, read, and connect</h2>
+                                <div class="ec">
+                                    <span>It's easy and free to post your thinking on any topic and connect with millions of readers.</span>
+                                </div>
+                                <div>
+                                    <a href="{% url 'account_signup' %}" class="lj btn btn-outline-dark">Присоединиться</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="aa">
+    <div class="az">
+        <div class="ay mt-15">
+            <div class="aw">
+                <div class="io">
+                    <div class="oo">
+                        <div class="fc">
+                            <div class="hp">
+                                <div style="display: block;">
+                                    <h2></h2>
+                                </div>
+                            </div>
+                            {% for post in posts %}
+                            <div class="card" style="width: 18rem; margin:40px">
+                                <span style="text-align:center;padding: 5px;">
+                                    <a href="{{ post.author.get_absolute_url }}">{{post.author}}</a>
+                                    , {{post.created_at | date:'d b Y'}}
+                                </span>
+                                <img src="{{ post.image.url }}" class="card-img-top" alt="Фото записи">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ post.title }}</h5>
+<!--                                    <p class="card-text">{{post.content | truncatechars:100 }}</p>-->
+                                </div>
+                                <div class="card-footer" align="center">
+                                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-dark">Читать полностью</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
 
 {% block login %}{% endblock %}
 {% block post_create %}{% endblock %}

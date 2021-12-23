@@ -104,9 +104,10 @@ class UserDetailView(DetailView):
         context['following'] = UserFollowing.objects.filter(follower=user)
         context['followers'] = UserFollowing.objects.filter(followee=user)
         is_follow = False
-        follow = user.followerss.filter(followee=self.request.user)
-        if follow.exists():
-            is_follow = True
+        if self.request.user.is_authenticated:
+            follow = user.followerss.filter(followee=self.request.user)
+            if follow.exists():
+                is_follow = True
         context['is_follow'] = is_follow
         return context
 

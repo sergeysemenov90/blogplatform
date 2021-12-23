@@ -17,11 +17,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from blog.views import PostListView
+from blogplatform.views import InterestingPosts
 
 
 urlpatterns = [
-    path('', PostListView.as_view(), name='mainpage'),
+    path('', InterestingPosts.as_view(), name='mainpage'),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('accounts/', include('allauth.urls')),

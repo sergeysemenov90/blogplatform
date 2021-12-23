@@ -23,11 +23,11 @@
         <form action="{% url 'user_follow_unfollow' siteuser.id %}" method="post">
             {% csrf_token %}
             {% if is_follow %}
-            <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-primary">
+            <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-outline-dark">
                 Отписаться
             </button>
             {% else %}
-            <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-primary mt-15">
+            <button type="submit" name="user_id" value="{{siteuser.id}}" class="btn btn-outline-dark mt-15">
                 Подписаться
             </button>
             {% endif %}
