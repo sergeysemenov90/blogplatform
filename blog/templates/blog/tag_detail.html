@@ -7,6 +7,8 @@
     <h2>Посты, связанные с тэгом {{ tag.name }}:</h2>
     {% for post in tag.posts.all %}
     {% include 'blog/includes/post_card.html' %}
+    {% empty %}
+    К сожалению, постов с этим тегом пока никто не создал...
     {% endfor %}
 </div>
 {% endblock %}

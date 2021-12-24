@@ -16,8 +16,8 @@ urlpatterns = [
     path('@<pk>/user_update', UserUpdateView.as_view(), name='user_update'),
     path('@<pk>/follow', user_follow_unfollow, name='user_follow_unfollow'),
     path('tags/<int:pk>', TagDetailView.as_view(), name='tag_detail'),
-    path('blog/<int:pk>', BlogDetailView.as_view(), name='blog_detail'),
-    path('blog/blog_create', BlogCreateView.as_view(), name='blog_create'),
+    path('<int:pk>', BlogDetailView.as_view(), name='blog_detail'),
+    path('blog_create', BlogCreateView.as_view(), name='blog_create'),
 ]
 
 if settings.DEBUG:

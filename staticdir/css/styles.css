@@ -168,3 +168,12 @@ margin-top: 50px;
     justify-content: center;
     text-align: center;
 }
+
+.tags_main {
+    margin-top: 75px;
+    max-width: 100px;
+    max-height: 150px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

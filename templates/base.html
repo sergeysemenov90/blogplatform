@@ -105,18 +105,22 @@
                                 <img src="{{ post.image.url }}" class="card-img-top" alt="Фото записи">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ post.title }}</h5>
-<!--                                    <p class="card-text">{{post.content | truncatechars:100 }}</p>-->
                                 </div>
                                 <div class="card-footer" align="center">
                                     <a href="{{ post.get_absolute_url }}" class="btn btn-outline-dark">Читать полностью</a>
                                 </div>
                             </div>
                             {% endfor %}
-                            {% for tag in tags %}
-                            <a href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a> <br>
-                            {% endfor %}
                         </div>
                     </div>
+                </div>
+            </div>
+            <div style="margin-top: 75px; max-width: 300px;">
+                <div>
+                <p>Popular tags:</p>
+                {% for tag in tags %}
+                <a class="btn btn-outline-dark" href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a>
+                {% endfor %}
                 </div>
             </div>
         </div>
