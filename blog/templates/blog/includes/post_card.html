@@ -1,0 +1,16 @@
+<div class="col-sm">
+    <div class="card" style="width: 18rem;">
+                <span style="text-align:center;padding: 5px;">
+                    <a href="{{ post.author.get_absolute_url }}">{{post.author}}</a>
+                    , {{post.created_at | date:'d b Y'}}
+                </span>
+        <img src="{{ post.image.url }}" class="card-img-top" alt="Фото записи">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{post.content | truncatechars:100 }}</p>
+        </div>
+        <div class="card-footer" align="center">
+            <a href="{{ post.get_absolute_url }}" class="btn btn-outline-dark">Читать полностью</a>
+        </div>
+    </div>
+</div>

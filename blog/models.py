@@ -21,6 +21,7 @@ class SiteUser(AbstractUser):
 
 class Blog(models.Model):
     """Блог, посвященный определенной теме"""
+    owner = models.ForeignKey(to=SiteUser, on_delete=models.CASCADE, related_name='blogs')
     name = models.CharField(max_length=200)
     description = models.TextField()
     followers = models.ManyToManyField(to=SiteUser)
@@ -47,12 +48,12 @@ class Post(models.Model):
     author = models.ForeignKey(to=SiteUser, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=250)
     content = models.TextField(blank=True)
-    blog = models.ForeignKey(to=Blog, on_delete=models.SET_NULL, related_name='post', blank=True, null=True)
-    tags = models.ManyToManyField(to=Tag)
+    blog = models.ForeignKey(to=Blog, on_delete=models.SET_NULL, related_name='posts', blank=True, null=True)
+    tags = models.ManyToManyField(to=Tag, related_name='posts')
     image = models.ImageField(upload_to='media/content_image/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(blank=True, null=True)
-    likes = models.ManyToManyField(to=SiteUser, related_name='post_like')
+    likes = models.ManyToManyField(to=SiteUser, related_name='post_likes')
     time_to_read = models.PositiveIntegerField()
 
     class Meta:

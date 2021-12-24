@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, CommentCreateView, UserDetailView, \
-    UserUpdateView
+    UserUpdateView, TagDetailView, BlogDetailView, BlogCreateView
 from .services import like_or_dislike_post, user_follow_unfollow
 
 urlpatterns = [
@@ -15,6 +15,9 @@ urlpatterns = [
     path('@<pk>/', UserDetailView.as_view(), name='user_profile'),
     path('@<pk>/user_update', UserUpdateView.as_view(), name='user_update'),
     path('@<pk>/follow', user_follow_unfollow, name='user_follow_unfollow'),
+    path('tags/<int:pk>', TagDetailView.as_view(), name='tag_detail'),
+    path('blog/<int:pk>', BlogDetailView.as_view(), name='blog_detail'),
+    path('blog/blog_create', BlogCreateView.as_view(), name='blog_create'),
 ]
 
 if settings.DEBUG:

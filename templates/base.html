@@ -112,6 +112,9 @@
                                 </div>
                             </div>
                             {% endfor %}
+                            {% for tag in tags %}
+                            <a href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a> <br>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

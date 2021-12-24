@@ -1,0 +1,12 @@
+{% extends 'blog/index.html' %}
+
+{% block title %} Tag: {{ tag.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Посты, связанные с тэгом {{ tag.name }}:</h2>
+    {% for post in tag.posts.all %}
+    {% include 'blog/includes/post_card.html' %}
+    {% endfor %}
+</div>
+{% endblock %}

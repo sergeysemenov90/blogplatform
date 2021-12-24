@@ -18,6 +18,9 @@
                 <a href="{% url 'user_update' siteuser.pk %}">Редактировать данные</a>
                 {% endif %}
             </p>
+            <p>
+                <a href="{% url 'blog_create'%}">Создать свой блог по интересам</a>
+            </p>
             <p>{{siteuser.description}}</p>
             {% if user.is_authenticated %}
         <form action="{% url 'user_follow_unfollow' siteuser.id %}" method="post">

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Post, Comment, SiteUser, UserFollowing
+from .models import Post, Comment, SiteUser, UserFollowing, Tag, Blog
 from .forms import CommentCreateForm, PostCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -60,7 +60,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(UpdateView):
     """Редактирование записи"""
     model = Post
-    fields = ['title', 'content', 'image', ]
+    form_class = PostCreateForm
     template_name = 'blog/post_update.html'
 
     def get_success_url(self):
@@ -91,7 +91,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('post_detail', kwargs=({'pk': self.object.pk}))
+        return reverse_lazy('post_detail', kwargs=({'pk': self.object.post.pk}))
 
 
 class UserDetailView(DetailView):
@@ -114,11 +114,33 @@ class UserDetailView(DetailView):
         return context
 
 
-# TODO: Добавить форму написания потсов с CKEditor
-# TODO: Страница блога
-# TODO: Страница тэга
+class TagDetailView(DetailView):
+    model = Tag
+    template_name = 'blog/tag_detail.html'
+
+
+class BlogDetailView(DetailView):
+    model = Blog
+    template_name = 'blog/blog_detail.html'
+
+
+class BlogCreateView(CreateView):
+    model = Blog
+    template_name = 'blog/blog_create.html'
+    fields = ['name', 'description']
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('blog_detail', kwargs={'pk': self.object.pk})
+
+
 # TODO: Облако тэгов на главной
 # TODO: Ajax для отправки post без перезагрузки страницы
 # TODO: Возможность подписаться на отправку email`a при публикации поста
 # TODO Шапка личной страницы пользователя
 # TODO Вывод постов людей и блогов, на которые пользователь подписан
+# TODO Количество просмотров поста

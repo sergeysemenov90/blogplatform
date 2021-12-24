@@ -1,0 +1,15 @@
+{% extends 'blog/index.html' %}
+
+{% block title %} {{ blog.name }} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Привет! Вы находитесь в блоге {{ blog.name }}</h1>
+    <h3> Создатель блога - {{ blog.owner }}</h3>
+    {{ blog.description }}
+    <h4>Посты, в блоге {{ blog.name }}:</h4>
+    {% for post in blog.posts.all %}
+    {% include 'blog/includes/post_card.html' %}
+    {% endfor %}
+</div>
+{% endblock %}
