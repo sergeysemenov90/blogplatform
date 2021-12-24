@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post, Comment, SiteUser, UserFollowing
-from .forms import CommentCreateForm
+from .forms import CommentCreateForm, PostCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -39,10 +39,12 @@ class PostDetailView(DetailView):
         return data
 
 
+
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     """Создание записи"""
     model = Post
-    fields = ['title', 'content', 'image', ]
+    form_class = PostCreateForm
     template_name = 'blog/post_create.html'
 
     def form_valid(self, form):
@@ -112,8 +114,11 @@ class UserDetailView(DetailView):
         return context
 
 
+# TODO: Добавить форму написания потсов с CKEditor
 # TODO: Страница блога
 # TODO: Страница тэга
 # TODO: Облако тэгов на главной
 # TODO: Ajax для отправки post без перезагрузки страницы
-# TODO: Переделать главную
+# TODO: Возможность подписаться на отправку email`a при публикации поста
+# TODO Шапка личной страницы пользователя
+# TODO Вывод постов людей и блогов, на которые пользователь подписан

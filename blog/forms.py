@@ -1,5 +1,6 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.forms import ModelForm
-from .models import Comment
+from .models import Comment, Post
 from allauth.account.forms import SignupForm
 from django import forms
 
@@ -40,3 +41,11 @@ class SiteUserSignupForm(SignupForm):
         user.description = self.cleaned_data['description']
         user.save()
         return user
+
+
+class PostCreateForm(ModelForm):
+    content = forms.CharField(widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'blog', 'tags', 'image']

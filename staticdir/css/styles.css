@@ -1,0 +1,170 @@
+.lj {
+    visibility: visible;
+}
+div {
+display: block;
+}
+
+.page-head {
+    background: #C4E2FF;
+    display: block;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.le {
+    display: block;
+    block-sizing: inherit;
+    background-size: 349px 353px;
+    background-repeat: no-repeat;
+}
+
+.an {
+    justify-content: center;
+    display:flex;
+    flex-direction: row;
+}
+
+
+.as {
+    margin: 0 64px;
+    width: 100%;
+    max-width: 1192px;
+    min-width: 0;
+}
+
+.df {
+    background-position: bottom 1px right 32px;
+    display: block;
+    background-image: url("/media/media/content_image/2021/12/22/4_BIK9VGjeCj2TaTDw4id2nA.png");
+    background-size: 385px 341px;
+    background-repeat: no-repeat;
+}
+
+
+.ax {
+    flex-direction: row;
+    display: flex;
+    width: 100%;
+}
+
+
+
+.dq {
+    width: 550px;
+    z-index: 2;
+    flex-direction: column;
+    height: 100%;
+    padding-top: 33px;
+    padding-bottom: 30px;
+    display: flex;
+}
+
+
+.ec {
+    width: 80%;
+    margin-bottom: 25px;
+    display: block;
+}
+
+
+.head-text {
+    width: 550px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-size: 70px;
+    line-height: 74px;
+    font-weight: 400;
+    font-family: gt-super, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.btn-primary {
+    color: black;
+    background-color: #C4E2FF;
+}
+
+.bg-primary {
+    background-color: #C4E2FF;
+}
+
+.aa {
+    flex-direction: column;
+    display: flex;
+}
+
+.az {
+    border-top: 1px solid rgba(230, 230, 230, 1);
+    display: block;
+}
+
+.ay {
+    justify-content: center;
+    display: flex;
+}
+
+.aw {
+    margin: 0 64px;
+    min-width: 0;
+    max-width: 1192px;
+    width: 100%;
+}
+
+.io {
+    padding-top: 40px;
+    padding-bottom: 16px;
+    display: block;
+}
+
+.oo {
+ width: 100%;
+ display: block;
+}
+
+.fc {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    flex-direction: row;
+    display: flex;
+}
+
+
+
+.hp {
+    margin-bottom: 16px;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+}
+
+
+.mt-15 {
+margin-top: 15px;
+}
+
+.mt-50 {
+margin-top: 50px;
+}
+
+.single-post-title {
+    width: 100%;
+    height: 340px;
+    position: relative;
+    z-index: 1;
+
+.bg-img {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.background-overlay,
+.background-overlay-5,
+.background-overlay-white {
+    position: relative;
+    z-index: 2;
+    background-position: center center;
+    background-size: cover;
+}
+
+.center {
+    justify-content: center;
+    text-align: center;
+}
