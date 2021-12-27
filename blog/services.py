@@ -2,9 +2,9 @@ from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-
 from blogplatform import settings
-from .models import Post, UserFollowing, SiteUser
+from blog.models import Post, UserFollowing, SiteUser
+from blog.tasks import send_mail_for_subscribers
 from django.db.models.signals import pre_save, post_save
 
 
@@ -44,7 +44,15 @@ def time_to_read(sender, instance, *args, **kwargs):
 @receiver(post_save, sender=Post)
 def send_mail_to_subscribers(sender, instance, *args, **kwargs):
     """Отправляет письмо с содержанием записи списку подписчиков"""
-    emails_list = [subscriber.email for subscriber in instance.author.subscribers]
+    if instance.author.subscribers:
+        content = dict()
+        content['emails'] = [subscriber.email for subscriber in instance.author.subscribers.all()]
+        content['author'] = instance.author.get_full_name()
+        content['post'] = instance.get_absolute_url()
+        send_mail_for_subscribers.delay(content)
+        print(content)
+        print(list(content['emails']))
+
 
 
 def add_or_remove_subscriber(request, pk):
