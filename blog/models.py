@@ -9,6 +9,7 @@ class SiteUser(AbstractUser):
     description = models.CharField(max_length=500, blank=True, null=True)
     image = models.ImageField(upload_to='media/user_image/%Y/%m/%d', blank=True, null=True)
     followers = models.ManyToManyField(to='self')
+    subscribers = models.ManyToManyField(to='self')
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -29,6 +30,9 @@ class Blog(models.Model):
     class Meta:
         verbose_name = 'Блог'
         verbose_name_plural = 'Блоги'
+
+    def __str__(self):
+        return self.name
 
 
 class Tag(models.Model):

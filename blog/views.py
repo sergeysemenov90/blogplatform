@@ -39,8 +39,6 @@ class PostDetailView(DetailView):
         return data
 
 
-
-
 class PostCreateView(LoginRequiredMixin, CreateView):
     """Создание записи"""
     model = Post
@@ -49,8 +47,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         """Переопределяем метод для добавления автора записи"""
-        self.object = form.save(commit=False)
-        self.object.author = self.request.user
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -85,9 +82,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         """Переопределяем метод для добавления автора и записи для комментария"""
-        self.object = form.save(commit=False)
-        self.object.author = self.request.user
-        self.object.post = get_object_or_404(Post, id=self.kwargs['pk'])
+        form.instance.author = self.request.user
+        form.instance.post = get_object_or_404(Post, id=self.kwargs['pk'])
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -106,11 +102,16 @@ class UserDetailView(DetailView):
         context['following'] = UserFollowing.objects.filter(follower=user)
         context['followers'] = UserFollowing.objects.filter(followee=user)
         is_follow = False
+        is_subscribed = False
         if self.request.user.is_authenticated:
             follow = user.followerss.filter(followee=self.request.user)
             if follow.exists():
                 is_follow = True
+            subscribe = user.subscribers.filter(id=self.request.user.id)
+            if subscribe.exists():
+                is_subscribed = True
         context['is_follow'] = is_follow
+        context['is_subscribed'] = is_subscribed
         return context
 
 
@@ -130,15 +131,14 @@ class BlogCreateView(CreateView):
     fields = ['name', 'description']
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.owner = self.request.user
+        form.instance.owner = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('blog_detail', kwargs={'pk': self.object.pk})
 
 
-# TODO: Облако тэгов на главной
+# TODO: Добавить кеширование
 # TODO: Ajax для отправки post без перезагрузки страницы
 # TODO: Возможность подписаться на отправку email`a при публикации поста
 # TODO Шапка личной страницы пользователя

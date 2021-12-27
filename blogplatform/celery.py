@@ -9,7 +9,6 @@ app.autodiscover_tasks()
 
 
 # celery beat tasks
-
 app.conf.beat_schedule = {
     'send-interesting-posts-every-5-minutes': {
         'task': 'blog.tasks.send_beat_email',

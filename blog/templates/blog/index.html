@@ -11,9 +11,9 @@
 </head>
 
 {% block content %}
-<h1 class="mt-15 mb-15" align="center">Список популярных постов</h1>
 <div class="container">
-    <div class="row">
+    <h1 class="mt-15 mb-15" style="text-align: center">Список популярных постов</h1>
+    <div style="display:flex;">
         {% for post in posts %}
             {% include 'blog/includes/post_card.html' %}
         {% endfor %}

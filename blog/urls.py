@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, CommentCreateView, UserDetailView, \
     UserUpdateView, TagDetailView, BlogDetailView, BlogCreateView
-from .services import like_or_dislike_post, user_follow_unfollow
+from .services import like_or_dislike_post, user_follow_unfollow, add_or_remove_subscriber
 
 urlpatterns = [
     path('posts', PostListView.as_view(), name='post_list'),
@@ -18,6 +18,7 @@ urlpatterns = [
     path('tags/<int:pk>', TagDetailView.as_view(), name='tag_detail'),
     path('<int:pk>', BlogDetailView.as_view(), name='blog_detail'),
     path('blog_create', BlogCreateView.as_view(), name='blog_create'),
+    path('@<pk>/subscribe', add_or_remove_subscriber, name='user_subscribe'),
 ]
 
 if settings.DEBUG:

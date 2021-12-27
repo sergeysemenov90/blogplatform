@@ -1,9 +1,11 @@
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+
+from blogplatform import settings
 from .models import Post, UserFollowing, SiteUser
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 
 
 def like_or_dislike_post(request, pk):
@@ -38,3 +40,21 @@ def time_to_read(sender, instance, *args, **kwargs):
     else:
         instance.time_to_read = res
 
+
+@receiver(post_save, sender=Post)
+def send_mail_to_subscribers(sender, instance, *args, **kwargs):
+    """Отправляет письмо с содержанием записи списку подписчиков"""
+    emails_list = [subscriber.email for subscriber in instance.author.subscribers]
+
+
+def add_or_remove_subscriber(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+    user = get_object_or_404(SiteUser, pk=pk)
+    subscriber = get_object_or_404(SiteUser, pk=request.user.id)
+    subscribe = user.subscribers.filter(id=subscriber.id)
+    if subscribe.exists():
+        user.subscribers.remove(subscriber)
+    else:
+        user.subscribers.add(subscriber)
+    return HttpResponseRedirect(reverse_lazy('user_profile', kwargs={'pk': user.id}))
