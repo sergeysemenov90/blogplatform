@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
@@ -18,6 +20,15 @@ class PostListView(ListView):
         if 'search' in self.request.GET:
             queryset = queryset.filter(title__icontains=self.request.GET['search'])
         return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = super(PostListView, self).get_context_data()
+        if self.request.user.is_authenticated:
+            follow_to = UserFollowing.objects.filter(followee=self.request.user.id)
+            follow_list = [userfollowerobject.follower for userfollowerobject in follow_to]
+            print(follow_list)
+            data['interesting_posts'] = Post.objects.filter(author__in=follow_list)
+        return data
 
 
 class PostDetailView(DetailView):
@@ -62,6 +73,10 @@ class PostUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('post_detail', args=(self.kwargs['pk'],))
+
+    def form_valid(self, form):
+        form.instance.edited_at = datetime.datetime.now()
+        return super().form_valid(form)
 
 
 class UserUpdateView(UpdateView):
@@ -138,9 +153,7 @@ class BlogCreateView(CreateView):
         return reverse_lazy('blog_detail', kwargs={'pk': self.object.pk})
 
 
+
 # TODO: Добавить кеширование
 # TODO: Ajax для отправки post без перезагрузки страницы
-# TODO: Возможность подписаться на отправку email`a при публикации поста
-# TODO Шапка личной страницы пользователя
-# TODO Вывод постов людей и блогов, на которые пользователь подписан
 # TODO Количество просмотров поста

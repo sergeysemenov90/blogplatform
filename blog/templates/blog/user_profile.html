@@ -57,7 +57,7 @@
         </span>
             <span style="margin-bottom:10px"><h5>{{ post.title }}</h5></span>
             <p><img src="{{ post.image.url }}" alt="Фото записи" width="700"></p>
-            <p>{{post.content | truncatewords:175}}</p>
+            <p>{{post.content | truncatewords:175 | safe }}</p>
             <span><a href="{{ post.get_absolute_url }}">Читать полностью</a> ({{post.time_to_read}} минут)</span>
             {% endfor %}
     </div>

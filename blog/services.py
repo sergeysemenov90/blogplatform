@@ -34,7 +34,7 @@ def user_follow_unfollow(request, pk):
 def time_to_read(sender, instance, *args, **kwargs):
     """Заполняет значение time_to_read - время на чтения записи"""
     symbols_count = len(instance.content)
-    res = int(symbols_count/1200)
+    res = int(symbols_count / 1200)
     if res < 1:
         instance.time_to_read = 1
     else:
@@ -44,15 +44,12 @@ def time_to_read(sender, instance, *args, **kwargs):
 @receiver(post_save, sender=Post)
 def send_mail_to_subscribers(sender, instance, *args, **kwargs):
     """Отправляет письмо с содержанием записи списку подписчиков"""
-    if instance.author.subscribers:
-        content = dict()
-        content['emails'] = [subscriber.email for subscriber in instance.author.subscribers.all()]
-        content['author'] = instance.author.get_full_name()
-        content['post'] = instance.get_absolute_url()
+    if instance.author.subscribers and not instance.edited_at:
+        content = {'emails': [subscriber.email for subscriber in instance.author.subscribers.all()],
+                   'author': instance.author.get_full_name(),
+                   'post': instance.get_absolute_url()
+                   }
         send_mail_for_subscribers.delay(content)
-        print(content)
-        print(list(content['emails']))
-
 
 
 def add_or_remove_subscriber(request, pk):

@@ -8,7 +8,6 @@ class SiteUser(AbstractUser):
     last_name = models.CharField('last name', max_length=150)
     description = models.CharField(max_length=500, blank=True, null=True)
     image = models.ImageField(upload_to='media/user_image/%Y/%m/%d', blank=True, null=True)
-    followers = models.ManyToManyField(to='self')
     subscribers = models.ManyToManyField(to='self')
 
     class Meta:
@@ -56,7 +55,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(to=Tag, related_name='posts')
     image = models.ImageField(upload_to='media/content_image/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True)
-    changed_at = models.DateTimeField(blank=True, null=True)
+    edited_at = models.DateTimeField(blank=True, null=True)
     likes = models.ManyToManyField(to=SiteUser, related_name='post_likes')
     time_to_read = models.PositiveIntegerField()
 
