@@ -23,6 +23,7 @@ from blogplatform.views import InterestingPosts
 urlpatterns = [
     path('', InterestingPosts.as_view(), name='mainpage'),
     path('admin/', admin.site.urls),
+    path('__debug__/', include('debug_toolbar.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('blog/', include('blog.urls')),
     path('accounts/', include('allauth.urls')),

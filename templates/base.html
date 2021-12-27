@@ -96,6 +96,8 @@
                                     <h2></h2>
                                 </div>
                             </div>
+                            {% load cache %}
+                            {% cache 60 posts %}
                             {% for post in posts %}
                             <div class="card" style="width: 18rem; margin:40px">
                                 <span style="text-align:center;padding: 5px;">
@@ -111,16 +113,20 @@
                                 </div>
                             </div>
                             {% endfor %}
+                            {% endcache %}
                         </div>
                     </div>
                 </div>
             </div>
             <div style="margin-top: 75px; max-width: 300px;">
                 <div>
+                {% load cache %}
+                {% cache 300 tags %}
                 <p>Popular tags:</p>
                 {% for tag in tags %}
                 <a class="btn btn-outline-dark" href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a>
                 {% endfor %}
+                {% endcache %}
                 </div>
             </div>
         </div>
