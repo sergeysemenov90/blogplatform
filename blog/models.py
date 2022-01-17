@@ -58,6 +58,7 @@ class Post(models.Model):
     edited_at = models.DateTimeField(blank=True, null=True)
     likes = models.ManyToManyField(to=SiteUser, related_name='post_likes')
     time_to_read = models.PositiveIntegerField()
+    source = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Запись'
