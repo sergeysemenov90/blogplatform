@@ -15,6 +15,7 @@
                 {% endif %}
                 {% if user == post.author %}
                 <a href="{% url 'post_update' post.id %}">Редактировать</a>
+                <a href="{% url 'post_delete' post.id %}">Удалить</a>
                 {% endif %}
             </p>
             <p>
@@ -31,7 +32,8 @@
                 <div class="single-post-text">
                     {{post.content | safe}}
                     <div style="text-align: right">
-                        {{ post.source }}
+
+                        Источник - <a href="{{post.source}}">{{ post.source }}</a>
                     </div>
 
                     {% if user.is_authenticated %}

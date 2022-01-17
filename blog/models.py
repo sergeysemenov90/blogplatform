@@ -52,7 +52,7 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     content = models.TextField(blank=True)
     blog = models.ForeignKey(to=Blog, on_delete=models.SET_NULL, related_name='posts', blank=True, null=True)
-    tags = models.ManyToManyField(to=Tag, related_name='posts')
+    tags = models.ManyToManyField(to=Tag, related_name='posts', blank=True)
     image = models.ImageField(upload_to='media/content_image/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(blank=True, null=True)

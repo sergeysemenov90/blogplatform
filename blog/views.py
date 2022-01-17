@@ -2,7 +2,7 @@ import datetime
 
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Comment, SiteUser, UserFollowing, Tag, Blog
 from .forms import CommentCreateForm, PostCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -77,6 +77,16 @@ class PostUpdateView(UpdateView):
     def form_valid(self, form):
         form.instance.edited_at = datetime.datetime.now()
         return super().form_valid(form)
+
+
+class PostDeleteView(DeleteView):
+    """Удаление публикации пользователя"""
+    model = Post
+    template_name = 'blog/post_delete.html'
+
+    def get_success_url(self):
+        user = self.request.user
+        return reverse_lazy('user_profile', args=[str(user.pk)])
 
 
 class UserUpdateView(UpdateView):
@@ -154,6 +164,6 @@ class BlogCreateView(CreateView):
 
 
 
-# TODO: Добавить кеширование
+
 # TODO: Ajax для отправки post без перезагрузки страницы
 # TODO Количество просмотров поста
