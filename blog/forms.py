@@ -14,6 +14,7 @@ class CommentCreateForm(ModelForm):
 
 
 class SiteUserSignupForm(SignupForm):
+    """Форма регистрации пользователя"""
     first_name = forms.CharField(
         label="Имя",
         widget=forms.TextInput(
@@ -44,6 +45,7 @@ class SiteUserSignupForm(SignupForm):
 
 
 class PostCreateForm(ModelForm):
+    """Форма создания записи, добавление виджета CKEditor"""
     content = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:

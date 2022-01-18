@@ -53,6 +53,7 @@ def send_mail_to_subscribers(sender, instance, *args, **kwargs):
 
 
 def add_or_remove_subscriber(request, pk):
+    """Подписка/отписка от пользователя"""
     if not request.user.is_authenticated:
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     user = get_object_or_404(SiteUser, pk=pk)

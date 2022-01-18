@@ -141,16 +141,19 @@ class UserDetailView(DetailView):
 
 
 class TagDetailView(DetailView):
+    """Страница отдельно тега"""
     model = Tag
     template_name = 'blog/tag_detail.html'
 
 
 class BlogDetailView(DetailView):
+    """Страница отдельно блога"""
     model = Blog
     template_name = 'blog/blog_detail.html'
 
 
 class BlogCreateView(CreateView):
+    """Создание своего блога"""
     model = Blog
     template_name = 'blog/blog_create.html'
     fields = ['name', 'description']
