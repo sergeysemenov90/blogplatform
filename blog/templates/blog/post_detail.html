@@ -76,38 +76,61 @@
 </div>
 </section>
 
-
-<section>
-    <div class="container" style="display: flex; flex-direction: column; justify-content: center;">
-        <div style="text-align: center">
-            <h4>Обсуждение</h4>
-        </div>
-        <div style="text-align: center;">
-            {% for comment in post.comments.all %}
-            <div style="display: flex; justify-content: center;">
-                {% if comment.author.image %}
-                <img src="{{comment.author.image.url}}" alt="">
-                {% else %}
-                <img src="https://w7.pngwing.com/pngs/906/222/png-transparent-computer-icons-user-profile-avatar-french-people-computer-network-heroes-black.png" width="40">
-                {% endif %}
-                <p>{{comment.author}}</p>
-                <span class="comment-date font-pt">{{comment.date}}</span>
+{% if post.comments.all %}
+<section class="gradient-custom">
+    <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12 col-lg-10 col-xl-8">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-4 pb-2">Комментарии</h4>
+                        {% for comment in post.comments.all %}
+                        <div class="row" style="margin-bottom: 30px;">
+                            <div class="col">
+                                <div class="d-flex flex-start">
+                                    <img
+                                            class="rounded-circle shadow-1-strong me-3"
+                                            src="{{comment.author.image.url}}"
+                                            alt="avatar"
+                                            width="65"
+                                            height="65"
+                                    />
+                                    <div class="flex-grow-1 flex-shrink-1">
+                                        <div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="mb-1">
+                                                    <a href="{{ comment.author.get_absolute_url }}">{{comment.author}}</a>
+                                                    <span class="small">- {{comment.date | date:"d.m.y H:i"}}</span>
+                                                </p>
+                                            </div>
+                                            <p class="small mb-0">
+                                                {{comment.text}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-                <p style="margin-bottom:50px">{{comment.text}}</p>
-            {% endfor %}
-        </div>
-    </div>
-    <div style="display: flex; flex-direction: column; margin-top:20px">
-        <h4 style="align-self: center;">leave a comment</h4>
-        <div style="width:50%; align-self: center;">
-            <form action="{% url 'post_leave_comment' object.id %}" method="post">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-dark mt-15">Отправить</button>
-            </form>
         </div>
     </div>
 </section>
+{% endif %}
+
+
+<div style="display: flex; flex-direction: column; margin-top:20px">
+    <h4 style="align-self: center;">Поделитесь своим мнением</h4>
+    <div style="width:47%; align-self: center;">
+        <form action="{% url 'post_leave_comment' object.id %}" method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-dark mt-15">Отправить</button>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
 </body>

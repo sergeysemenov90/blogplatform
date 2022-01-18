@@ -31,7 +31,11 @@
                     {% for post in interesting_posts %}
                     {% include 'blog/includes/post_card.html' %}
                     {% empty %}
-                    <p style="text-align: center">Кажется никто ничего не написал... Вы можете найти интересных авторов в ленте популярных постов.</p>
+                    <p style="text-align: center">Кажется вы ни на кого не подписаны...</p>
+                    <p style="text-align: center">Вы можете найти интересных авторов ниже в ленте публикаций.</p>
+                    {% for post in posts %}
+                    {% include 'blog/includes/post_card.html' %}
+                    {% endfor %}
                     {% endfor %}
                 </div>
             </div>
