@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Post, Comment, SiteUser, UserFollowing, Tag, Blog
 from .forms import CommentCreateForm, PostCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class PostListView(ListView):
@@ -50,11 +51,12 @@ class PostDetailView(DetailView):
         return data
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """Создание записи"""
     model = Post
     form_class = PostCreateForm
     template_name = 'blog/post_create.html'
+    success_message = "Публикация создана!"
 
     def form_valid(self, form):
         """Переопределяем метод для добавления автора записи"""
