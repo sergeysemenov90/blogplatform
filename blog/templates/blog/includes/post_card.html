@@ -1,6 +1,6 @@
 
     <div class="col-sm-3">
-        <div class="card" style="width: 18rem; height: 27rem;">
+        <div class="card" style="width: 18rem; height: 31rem;">
                 <span style="text-align:center;padding: 5px;">
                     <a href="{{ post.author.get_absolute_url }}">{{post.author}}</a>
                     , {{post.created_at | date:'d b Y'}}
@@ -9,7 +9,7 @@
                 <img src="{{ post.image.url }}" class="card-img-top" style="height: 11rem; width: available" alt="Фото записи">
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
+                <h5 class="card-title">{{ post.title | truncatechars:60 | safe }}</h5>
                 <p class="card-text">{{post.content | truncatechars:100 | safe}}</p>
             </div>
             <div class="card-footer" align="center">
