@@ -12,3 +12,9 @@ class InterestingPosts(ListView):
         context = super().get_context_data()
         context['tags'] = Tag.objects.all()
         return context
+
+    def get_queryset(self):
+        queryset = super(InterestingPosts, self).get_queryset()
+        if 'search' in self.request.GET:
+            queryset = queryset.filter(title__icontains=self.request.GET['search'])
+        return queryset
