@@ -6,6 +6,7 @@ class InterestingPosts(ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'base.html'
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()

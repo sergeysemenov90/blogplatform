@@ -113,12 +113,11 @@
                                     <h2></h2>
                                 </div>
                             </div>
-                            {% load cache %}
-                            {% cache 30 posts %}
-                            {% for post in posts %}
+
+                            {% for post in page_obj %}
                                 {% include 'blog/includes/post_card.html' %}
                             {% endfor %}
-                            {% endcache %}
+
                         </div>
                     </div>
                 </div>
@@ -137,6 +136,23 @@
         </div>
     </div>
 </div>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination"  style="justify-content: center">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+<!--        <li class="page-item"><a class="page-link" href="?page=3">3</a></li>-->
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+
 {% endblock %}
 
 {% block login %}{% endblock %}
