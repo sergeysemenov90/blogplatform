@@ -7,25 +7,24 @@
 <div class="container">
     <div class="" style="text-align:center;">
         <h2>{{post.title}}</h2>
-        <img src="{{post.image.url}}" alt="" width="600">
-        <div class="center">
-            <p>{{post.author}} {{post.created_at | date }}
-                {% if post.edited_at%}
-                 Отредактирован {{ post.edited_at | date }}
-                {% endif %}
-                {% if user == post.author %}
-                <a href="{% url 'post_update' post.id %}">Редактировать</a>
-                <a href="{% url 'post_delete' post.id %}">Удалить</a>
-                {% endif %}
-            </p>
-            <p>
-                Время на чтение - {{post.time_to_read}} минут
-            </p>
+        <div class="center" style="color: rgba(0,0,0,0.5)">
+            {{post.author}} - {{post.created_at | date }}
+            {% if post.edited_at%}
+            <br>
+            Отредактирован {{ post.edited_at | date }}
+            {% endif %}
+            {% if user == post.author %}
+            <a href="{% url 'post_update' post.id %}">Редактировать</a>
+            <a href="{% url 'post_delete' post.id %}">Удалить</a>
+            {% endif %}
+
+            <br>Время на чтение - {{post.time_to_read}} минут
         </div>
+        <img src="{{post.image.url}}" alt="" width="600">
     </div>
 </div>
 
-<div class="single-post-contents">
+<div class="single-post-contents" style="margin-top: 30px">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8">

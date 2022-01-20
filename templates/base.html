@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                             {% load cache %}
-                            {% cache 60 posts %}
+                            {% cache 30 posts %}
                             {% for post in posts %}
                                 {% include 'blog/includes/post_card.html' %}
                             {% endfor %}

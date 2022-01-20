@@ -1,7 +1,7 @@
 
-    <div class="col-sm-3">
-        <div class="card" style="width: 18rem; height: 31rem;">
-                <span style="text-align:center;padding: 5px;">
+    <div class="col-sm-3" style="margin: 25px">
+        <div class="card" style="width: 18rem; height: 25rem;">
+                <span style="text-align:center;padding: 5px; background: #C4E2FF">
                     <a href="{{ post.author.get_absolute_url }}">{{post.author}}</a>
                     , {{post.created_at | date:'d b Y'}}
                 </span>
@@ -10,9 +10,9 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ post.title | truncatechars:60 | safe }}</h5>
-                <p class="card-text">{{post.content | truncatechars:100 | safe}}</p>
+<!--                <p class="card-text">{{post.content | truncatechars:100 | safe}}</p>-->
             </div>
-            <div class="card-footer" align="center">
+            <div class="card-footer" align="center" style="background: #C4E2FF">
                 <a href="{{ post.get_absolute_url }}" class="btn btn-outline-dark">Читать полностью</a>
             </div>
         </div>
