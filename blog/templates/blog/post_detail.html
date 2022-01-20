@@ -123,11 +123,20 @@
 <div style="display: flex; flex-direction: column; margin-top:20px">
     <h4 style="align-self: center;">Поделитесь своим мнением</h4>
     <div style="width:47%; align-self: center;">
+        {% if user.is_authenticated %}
         <form action="{% url 'post_leave_comment' object.id %}" method="post">
             {% csrf_token %}
             {{ form | crispy }}
             <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-dark mt-15">Отправить</button>
         </form>
+        {% else %}
+        <div style="margin-top: 25px">
+                    <a class="btn btn-outline-dark" href="{% url 'account_login' %}?next={{request.path}}">
+            Login
+        </a> <br>
+            Войдите, чтобы комментировать публикации
+        </div>
+        {% endif %}
     </div>
 </div>
 

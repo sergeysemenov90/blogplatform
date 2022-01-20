@@ -67,7 +67,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return reverse_lazy('post_detail', kwargs=({'pk': self.object.pk}))
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     """Редактирование записи"""
     model = Post
     form_class = PostCreateForm
@@ -81,7 +81,7 @@ class PostUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     """Удаление публикации пользователя"""
     model = Post
     template_name = 'blog/post_delete.html'
@@ -91,7 +91,7 @@ class PostDeleteView(DeleteView):
         return reverse_lazy('user_profile', args=[str(user.pk)])
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     """Обновление данных пользователя"""
     model = SiteUser
     fields = ['first_name', 'last_name', 'email', 'description', 'image']
