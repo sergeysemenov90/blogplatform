@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('changed_at', models.DateTimeField(blank=True)),
                 ('claps', models.IntegerField(default=0)),
-                ('time_to_read', models.TimeField(blank=True)),
+                ('time_to_read', models.IntegerField(blank=True)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='blog.siteuser')),
             ],
             options={

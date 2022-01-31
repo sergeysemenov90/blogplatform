@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='post',
             name='time_to_read',
-            field=models.TimeField(blank=True, null=True),
+            field=models.IntegerField(blank=True, null=True),
         ),
     ]

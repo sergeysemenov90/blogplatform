@@ -10,8 +10,8 @@ app.autodiscover_tasks()
 
 # celery beat tasks
 app.conf.beat_schedule = {
-    'send-interesting-posts-every-5-minutes': {
+    'send-interesting-posts-once-a-week': {
         'task': 'blog.tasks.send_beat_email',
-        'schedule': crontab(0,0,day_of_week='mon'),
+        'schedule': crontab(0, 0, day_of_week='mon'),
     },
 }

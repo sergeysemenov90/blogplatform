@@ -2,6 +2,7 @@ import datetime
 
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Comment, SiteUser, UserFollowing, Tag, Blog
 from .forms import CommentCreateForm, PostCreateForm
@@ -17,7 +18,7 @@ class PostListView(ListView):
 
     def get_queryset(self):
         """Реализация поиска по заголовкам записей"""
-        queryset = Post.objects.all()
+        queryset = Post.objects.filter(created_at__lte=timezone.now())
         if 'search' in self.request.GET:
             queryset = queryset.filter(title__icontains=self.request.GET['search'])
         return queryset
@@ -27,7 +28,6 @@ class PostListView(ListView):
         if self.request.user.is_authenticated:
             follow_to = UserFollowing.objects.filter(followee=self.request.user.id)
             follow_list = [userfollowerobject.follower for userfollowerobject in follow_to]
-            print(follow_list)
             data['interesting_posts'] = Post.objects.filter(author__in=follow_list)
         return data
 

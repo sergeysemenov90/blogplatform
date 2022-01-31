@@ -17,7 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from blogplatform.views import InterestingPosts
+from blogplatform.views import InterestingPosts, about_project
 
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('blog/', include('blog.urls')),
     path('accounts/', include('allauth.urls')),
+    path('about/', about_project, name='about'),
 ]
 
 
