@@ -59,6 +59,7 @@ class Post(models.Model):
     likes = models.ManyToManyField(to=SiteUser, related_name='post_likes')
     time_to_read = models.PositiveIntegerField()
     source = models.CharField(max_length=250, blank=True, null=True)
+    views_number = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = 'Запись'

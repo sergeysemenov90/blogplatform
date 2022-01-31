@@ -10,9 +10,9 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ post.title | truncatechars:60 | safe }}</h5>
-<!--                <p class="card-text">{{post.content | truncatechars:100 | safe}}</p>-->
+                {{post.views_number}}
             </div>
-            <div class="card-footer" align="center" style="background: #C4E2FF">
+            <div class="card-footer" style="background: #C4E2FF">
                 <a href="{{ post.get_absolute_url }}" class="btn btn-outline-dark">Читать полностью</a>
             </div>
         </div>

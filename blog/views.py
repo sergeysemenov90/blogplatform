@@ -42,6 +42,8 @@ class PostDetailView(DetailView):
         """Переопределяем метод для добавления в шаблон данных о наличии лайка от пользователя"""
         data = super(PostDetailView, self).get_context_data(**kwargs)
         post = get_object_or_404(Post, id=self.kwargs['pk'])
+        post.views_number += 1
+        post.save()
         is_liked = False
         if post.likes.filter(id=self.request.user.id).exists():
             is_liked = True

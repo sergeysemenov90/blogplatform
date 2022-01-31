@@ -1,9 +1,7 @@
 import datetime
-
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
-
 from blog.models import Post, SiteUser
 
 
@@ -13,12 +11,12 @@ def create_user():
 
 
 def create_post(days,
-                user,
                 title='First_post',
                 content='First_post_content',
                 image='a',
                 ):
     time = timezone.now() + datetime.timedelta(days)
+    user = create_user()
     post = Post.objects.create(author=user, title=title, content=content, image=image)
     post.created_at = time
     post.save()
@@ -40,9 +38,19 @@ class PostListViewTest(TestCase):
         Questions with a pub_date in the future aren't displayed on
         the index page.
         """
-        user = create_user()
-        post = create_post(user=user, days=30)
+        post = create_post(days=30)
         response = self.client.get(reverse('post_list'))
         self.assertContains(response, 'Кажется вы ни на кого не подписаны...')
         self.assertQuerysetEqual(response.context['posts'], [])
 
+
+class PostDetailViewTests(TestCase):
+    def setUp(self) -> None:
+        self.post = create_post(days=0)
+
+    def test_post_views_number(self):
+        response1 = self.client.get(reverse('post_detail', args=[self.post.id, ]))
+        response2 = self.client.get(reverse('post_detail', args=[self.post.id, ]))
+        post = Post.objects.get(pk=self.post.id)
+        self.assertEqual(response1.context['post'], post)
+        self.assertEqual(post.views_number, 2)
