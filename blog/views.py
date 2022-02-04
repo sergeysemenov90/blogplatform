@@ -1,5 +1,5 @@
 import datetime
-
+from django.db.models import F
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -42,8 +42,9 @@ class PostDetailView(DetailView):
         """Переопределяем метод для добавления в шаблон данных о наличии лайка от пользователя"""
         data = super(PostDetailView, self).get_context_data(**kwargs)
         post = get_object_or_404(Post, id=self.kwargs['pk'])
-        post.views_number += 1
+        post.views_number = F('views_number') + 1
         post.save()
+        post.refresh_from_db()
         is_liked = False
         if post.likes.filter(id=self.request.user.id).exists():
             is_liked = True
