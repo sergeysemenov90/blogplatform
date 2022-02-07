@@ -50,4 +50,4 @@ class PostCreateForm(ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'content', 'blog', 'tags', 'image', 'source']
+        fields = ['title', 'content', 'blog', 'tags', 'image', 'source', 'personal']

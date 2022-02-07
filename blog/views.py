@@ -1,4 +1,5 @@
 import datetime
+from django.core.exceptions import PermissionDenied
 from django.db.models import F
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -6,7 +7,7 @@ from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Comment, SiteUser, UserFollowing, Tag, Blog
 from .forms import CommentCreateForm, PostCreateForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 
@@ -18,7 +19,7 @@ class PostListView(ListView):
 
     def get_queryset(self):
         """Реализация поиска по заголовкам записей"""
-        queryset = Post.objects.filter(created_at__lte=timezone.now())
+        queryset = Post.objects.filter(created_at__lte=timezone.now(), personal=False)
         if 'search' in self.request.GET:
             queryset = queryset.filter(title__icontains=self.request.GET['search'])
         return queryset
@@ -32,11 +33,17 @@ class PostListView(ListView):
         return data
 
 
-class PostDetailView(DetailView):
+class PostDetailView(UserPassesTestMixin, DetailView):
     """Детальное отображение конкретной записи"""
     model = Post
     context_object_name = 'post'
     template_name = 'blog/post_detail.html'
+
+    def test_func(self):
+        post = self.get_object()
+        if post.personal and self.request.user != post.author:
+            raise PermissionDenied
+        return True
 
     def get_context_data(self, **kwargs):
         """Переопределяем метод для добавления в шаблон данных о наличии лайка от пользователя"""

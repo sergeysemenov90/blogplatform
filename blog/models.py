@@ -60,6 +60,7 @@ class Post(models.Model):
     time_to_read = models.PositiveIntegerField()
     source = models.CharField(max_length=250, blank=True, null=True)
     views_number = models.PositiveIntegerField(default=0)
+    personal = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Запись'
