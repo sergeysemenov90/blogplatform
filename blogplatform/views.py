@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import ListView
 from blog.models import Post, Tag
 
@@ -16,6 +17,7 @@ class InterestingPosts(ListView):
 
     def get_queryset(self):
         queryset = super(InterestingPosts, self).get_queryset()
+        queryset = queryset.filter(created_at__lte=timezone.now(), personal=False)
         if 'search' in self.request.GET:
             queryset = queryset.filter(title__icontains=self.request.GET['search'])
         return queryset
